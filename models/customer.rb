@@ -1,4 +1,5 @@
 require_relative('../db/sql_runner.rb')
+require_relative('./film')
 
 class Customer
 
@@ -56,5 +57,26 @@ class Customer
     arr = SqlRunner.run(sql, values)
     return arr.map{|films|Film.new(films)}
   end
+
+  def bookings_count
+    sql = "SELECT films.* FROM films
+    INNER JOIN screenings
+    ON screenings.film_id = films.id
+    INNER JOIN tickets
+    ON tickets.screening_id = screenings.id
+    WHERE tickets.customer_id = $1"
+    values = [@id]
+    arr = SqlRunner.run(sql, values)
+    return arr.map{|films|Film.new(films)}.count
+  end
+
+  def deduct_funds(amount)
+    @funds -= amount
+  end
+
+  def buy_film(film)
+    @funds -= film.price
+  end
+
 
 end

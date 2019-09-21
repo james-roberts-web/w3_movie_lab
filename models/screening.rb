@@ -46,4 +46,13 @@ class Screening
     return arr.map{|screenings|Screening.new(screenings)}
   end
 
+  def most_popular
+    sql = "SELECT screening_id, COUNT (screening_id)
+    FROM tickets
+    GROUP BY screening_id
+    ORDER BY count DESC LIMIT 1"
+    arr = SqlRunner.run(sql)
+    return arr.map{|screenings|Screening.new(screenings)}
+  end
+
 end

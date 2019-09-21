@@ -91,4 +91,8 @@ ticket8.save
 ticket9 = Ticket.new({'customer_id' => customer3.id, 'screening_id' =>screening7.id })
 ticket9.save
 
+
+customer1.buy_film(film1)
+
+
 binding.pry

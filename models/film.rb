@@ -56,4 +56,15 @@ class Film
     return arr.map{|customers|Customer.new(customers)}
   end
 
+  def attendees_count
+    sql = "SELECT customers.*, tickets.*, screenings.* FROM customers
+    INNER JOIN tickets
+    ON tickets.customer_id = customers.id
+    INNER JOIN screenings
+    ON screenings.film_id = $1"
+    values = [@id]
+    arr = SqlRunner.run(sql, values)
+    return arr.map{|customers|Customer.new(customers)}.count
+  end
+
 end
